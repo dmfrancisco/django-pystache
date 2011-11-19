@@ -12,6 +12,7 @@ from examples.delimiters import Delimiters
 from examples.unicode_output import UnicodeOutput
 from examples.unicode_input import UnicodeInput
 from examples.nested_context import NestedContext
+from examples.translation import Translation
 
 class TestView(unittest.TestCase):
     def test_comments(self):
@@ -78,6 +79,9 @@ Again, Welcome!
         view = TemplatePartial(context = {'prop': 'derp'})
         view.template = '''{{>partial_in_partial}}'''
         self.assertEquals(view.render(), 'Hi derp!')
+
+    def test_internationalization(self):
+        self.assertEquals(Translation().render(), u"Matt está a usar mustache.js!")
 
 if __name__ == '__main__':
     unittest.main()

@@ -56,6 +56,12 @@ Pull it together::
     'Hi pizza!'
 
 
+Internationalization
+====================
+
+The mustache spec does not have a tag for i18n. Support was later added to mustache.js using the {{_i}}{{/i}} tags. This fork adds the same feature to pystache. Check the examples/translation.py file for more information.
+
+
 Test It
 =======
 
