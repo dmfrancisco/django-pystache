@@ -62,7 +62,7 @@ class Template(object):
             'ctag': re.escape(self.ctag)
         }
 
-        section = r"%(otag)s[\#|^]([^\}]*)%(ctag)s\s*(.+?\s*)%(otag)s/\1%(ctag)s"
+        section = r"%(otag)s[\#|^|_]([^\}]*)%(ctag)s\s*(.+?\s*)%(otag)s/\1%(ctag)s"
         self.section_re = re.compile(section % tags, re.M|re.S)
 
         tag = r"%(otag)s(#|=|&|!|>|\{)?(.+?)\1?%(ctag)s+"
@@ -94,6 +94,9 @@ class Template(object):
             elif it and isinstance(it, object):
                 if section[2] != '^':
                     replacer = self._render_dictionary(inner, it)
+            # i18n
+            elif not it and section[2:4] == '_i':
+                replacer = view.t(inner)
             # Falsey and Negated or Truthy and Not Negated
             elif (not it and section[2] == '^') or (it and section[2] != '^'):
                 replacer = self._render_dictionary(inner, it)

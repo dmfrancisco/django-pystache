@@ -20,33 +20,38 @@ def get_or_attr(context_list, name, default=None):
     return default
 
 class View(object):
-    
+
     template_name = None
     template_path = None
     template = None
     template_encoding = None
     template_extension = 'mustache'
-    
+
     def __init__(self, template=None, context=None, **kwargs):
         self.template = template
         context = context or {}
         context.update(**kwargs)
 
         self.context_list = [context]
-        
+        self.translation_table = {}
+
+    def t(self, msg):
+        ''' Adds Twitter's i18n support for Mustache.js to Pystache '''
+        return self.translation_table[msg] if msg in self.translation_table else msg
+
     def get(self, attr, default=None):
         attr = get_or_attr(self.context_list, attr, getattr(self, attr, default))
         if hasattr(attr, '__call__') and type(attr) is UnboundMethodType:
             return attr()
         else:
             return attr
-    
+
     def get_template(self, template_name):
         if not self.template:
             from pystache import Loader
             template_name = self._get_template_name(template_name)
             self.template = Loader().load_template(template_name, self.template_path, encoding=self.template_encoding, extension=self.template_extension)
-        
+
         return self.template
 
     def _get_template_name(self, template_name=None):
