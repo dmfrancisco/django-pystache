@@ -64,6 +64,12 @@ If you use the "makemessages" django command, you may want to get the translatio
 
     python ../manage.py makemessages -l pt_PT -e .mustache
 
+Keep in mind that, at this moment, translation blocks must not include other block tags. For example, this does not work:
+
+    {{_i}}{{name}} is using mustache.js!{{/i}}
+
+You can also pre-render translations in the server by using the "pre_render_i18n" method. Check the example below.
+
 
 Example
 =======
@@ -129,6 +135,11 @@ Example
         ...
     )
 
+    # locale/.../django.po
+    #: templates/users/edit.mustache:18
+    msgid "My internationalized string!"
+    msgstr "A minha string traduzida!"
+
 
 Test It
 =======
@@ -138,6 +149,13 @@ nose_ works great! ::
     pip install nose
     cd pystache
     nosetests
+
+
+Roadmap
+=======
+
+* Create an example Django project
+* Add tests for internationalization
 
 
 Author

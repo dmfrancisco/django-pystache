@@ -7,5 +7,7 @@ class Translation(pystache.View):
 
     def __init__(self):
         super(Translation, self).__init__()
-        self.name = 'Matt'
-        self.translation_table["{{name}} is using mustache.js!"] = u"{{name}} está a usar mustache.js!"
+
+        # In your django.po file
+        # msgid "Internationalization!"
+        # msgstr "Internacionalização!"
