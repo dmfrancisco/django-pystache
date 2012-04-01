@@ -80,8 +80,5 @@ Again, Welcome!
         view.template = '''{{>partial_in_partial}}'''
         self.assertEquals(view.render(), 'Hi derp!')
 
-    def test_internationalization(self):
-        self.assertEquals(Translation().render(), u"Matt está a usar mustache.js!")
-
 if __name__ == '__main__':
     unittest.main()
