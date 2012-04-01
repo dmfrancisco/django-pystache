@@ -16,16 +16,16 @@ if sys.argv[-1] == "publish":
     publish()
     sys.exit()
 
-setup(name='pystache',
+setup(name='django-pystache',
       version='0.3.1-custom-i18n',
-      description='Mustache for Python',
+      description='Mustache for Django',
       long_description=open('README.rst').read() + '\n\n' + open('HISTORY.rst').read(),
       author='Chris Wanstrath',
       author_email='chris@ozmm.org',
-      url='http://github.com/defunkt/pystache',
+      url='http://github.com/dmfrancisco/django-pystache',
       packages=['pystache'],
       license='MIT',
-      classifiers = ( 
+      classifiers = (
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
