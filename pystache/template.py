@@ -3,6 +3,7 @@ import cgi
 import collections
 import os
 import copy
+from django.utils.translation import ugettext as _
 
 try:
     import markupsafe
@@ -96,7 +97,7 @@ class Template(object):
                     replacer = self._render_dictionary(inner, it)
             # i18n
             elif not it and section[2:4] == '_i':
-                replacer = view.t(inner)
+                replacer = _(inner)
             # Falsey and Negated or Truthy and Not Negated
             elif (not it and section[2] == '^') or (it and section[2] != '^'):
                 replacer = self._render_dictionary(inner, it)
@@ -164,11 +165,35 @@ class Template(object):
         self._compile_regexps()
         return ''
 
+    def _render_i18n_only_sections(self, template):
+        tags = {
+            'otag': re.escape(self.otag),
+            'ctag': re.escape(self.ctag)
+        }
+        section = r"%(otag)s_(i)%(ctag)s\s*(.+?\s*)%(otag)s/\1%(ctag)s"
+        section_re = re.compile(section % tags, re.M|re.S)
+
+        while True:
+            match = section_re.search(template)
+            if match is None:
+                break
+
+            section, section_name, inner = match.group(0, 1, 2)
+            if section[2:4] == '_i':
+                replacer = _(inner)
+                template = literal(template.replace(section, replacer))
+
+        return template
+
     @modifiers.set('{')
     @modifiers.set('&')
     def render_unescaped(self, tag_name):
         """Render a tag without escaping it."""
         return literal(self.view.get(tag_name, ''))
+
+    def pre_render_i18n(self):
+        self.template = self._render_i18n_only_sections(self.template)
+        return self.template
 
     def render(self, encoding=None):
         template = self._render_sections(self.template, self.view)

@@ -33,11 +33,6 @@ class View(object):
         context.update(**kwargs)
 
         self.context_list = [context]
-        self.translation_table = {}
-
-    def t(self, msg):
-        ''' Adds Twitter's i18n support for Mustache.js to Pystache '''
-        return self.translation_table[msg] if msg in self.translation_table else msg
 
     def get(self, attr, default=None):
         attr = get_or_attr(self.context_list, attr, getattr(self, attr, default))
