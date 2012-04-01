@@ -60,7 +60,9 @@ Internationalization
 
 The mustache spec does not have a tag for i18n. Support was later added to mustache.js by Twitter using the {{_i}}{{/i}} tags (see https://github.com/twitter/mustache.js). This fork adds the same feature to pystache. Check the examples/translation.py file for more information.
 
-If you use the "makemessages" django command, you may want to get the translation strings from your mustache templates. Copy the management directory in this repository to your apps' directory and issue the makemessages command as usual with the additional "-e .mustache" parameter.
+If you use the "makemessages" django command, you may want to get the translation strings from your mustache templates. Copy the management directory in this repository to your apps' directory and issue the makemessages command as usual with the additional "-e .mustache" parameter. Example: ::
+
+    python ../manage.py makemessages -l pt_PT -e .mustache
 
 
 Example
