@@ -71,20 +71,23 @@ Example
 ::
 
     # views/application.py
+    from django.utils import simplejson as json
+    from django.http import HttpResponse
+    import pystache
+
     pystache.View.template_path = relative('..', 'templates') # Define where the templates are kept
     pystache.View.template_encoding = 'utf8' # Define encoding
 
     class View(pystache.View):
         ''' Main View class '''
         def __init__(self, *args):
-            super(MyView, self).__init__()
+            super(View, self).__init__()
             ... # Set common local variables, layout, ...
 
         @classmethod
         def template(cls, request, **args):
             ''' Return raw template '''
             template = pystache.Loader().load_template(cls.template_name, cls.template_path)
-            template = pystache.Template(template).pre_render_i18n() # Pre-render translation sections
             return HttpResponse(template)
 
         @classmethod
